@@ -1,0 +1,42 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    static Map<Long, Long> memo = new HashMap<>();
+
+    static long solve(long n) {
+
+        if (n == 0) return 0;
+
+        // memoized result
+        if (memo.containsKey(n))
+            return memo.get(n);
+
+        long exchanged =
+                solve(n / 2) +
+                        solve(n / 3) +
+                        solve(n / 4);
+
+        long result = Math.max(n, exchanged);
+
+        memo.put(n, result);
+        return result;
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line;
+
+        StringBuilder sb = new StringBuilder();
+
+        while ((line = br.readLine()) != null) {
+            if (line.isEmpty()) continue;
+            long n = Long.parseLong(line.trim());
+            sb.append(solve(n)).append("\n");
+        }
+
+        System.out.print(sb);
+    }
+}
